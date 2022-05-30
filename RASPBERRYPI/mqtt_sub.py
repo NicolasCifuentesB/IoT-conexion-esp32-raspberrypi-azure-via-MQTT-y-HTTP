@@ -46,7 +46,7 @@ def on_message(client,userdata,msg) :
 		#query(float(temperature),float(humedity),float(light),float(ground),cursor,conexion)
 		query(float(temperature),float(humedity),cursor,conexion)
 		#azure_upload(temperature,humedity,light,ground,azure_client)
-		azure_upload(temperature,humedity,azure_client)
+		azure_upload(temperature,humedity,0,0,azure_client)
 	#print(msg.topic + ' ' + str(msg.payload.decode()))
 
 
