@@ -1,6 +1,5 @@
 from flask import Flask
-from flask import requests
-import paho.mqtt.client as mqtt
+from flask import request
 import sqlite3
 import datetime
 from azure.iot.device import IoTHubDeviceClient, Message
