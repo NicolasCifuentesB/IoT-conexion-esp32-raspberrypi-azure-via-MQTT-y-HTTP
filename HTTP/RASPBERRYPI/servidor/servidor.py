@@ -31,7 +31,7 @@ def query(temperatura,humedad,cursor,conexion) :
 
 app = Flask(__name__)
 azure_client = iothub_client_init()
-conexion = sqlite3.connect('http.db')
+conexion = sqlite3.connect('http.db',check_same_thread=False)
 cursor = conexion.cursor()
 
 try :

@@ -24,8 +24,8 @@ while True:
     #msg = (b'{0:3.1f},{1:3.1f},{2:3.1f},{3:3.1f}'.format(temperature,humedity,luz,tierra)) 
     #data = {'Temperature':temperature,'Humedity':humedity,'Luz':luz,'Tierra':tierra}
     data = {'Temperature':temperature,'Humedity':humedity}
-    request = urequests.post(url=url,json=data)
-    print(request.text)    
+    #request = urequests.post(url=url,json=data)
+    #print(request.text)
     sleep(2)
   except OSError as e:
     print('Error al leer el sensor.')
