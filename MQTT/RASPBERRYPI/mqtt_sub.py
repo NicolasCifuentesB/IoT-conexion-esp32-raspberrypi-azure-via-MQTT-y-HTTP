@@ -51,7 +51,7 @@ def on_message(client,userdata,msg) :
 
 
 azure_client = iothub_client_init()
-conexion = sqlite3.connect('example.db')
+conexion = sqlite3.connect('mqtt.db')
 cursor = conexion.cursor()
 
 try :
