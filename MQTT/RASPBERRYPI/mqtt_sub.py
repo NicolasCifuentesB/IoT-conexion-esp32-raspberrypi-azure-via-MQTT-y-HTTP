@@ -13,8 +13,8 @@ def iothub_client_init():
 def azure_upload(temperature,humedity,light,ground,azure_client) :
 
 	try :
-		#message_json = '{{"From": "Esp32-Pi","To": "Azure","Temperature": {t},"Humedity" {h},"Brightness": {l},"Ground_H" {g}}}'.format(t = temperature, h = humedity, l = light, g = ground)
-		message_json = '{{"From": "Esp32-Pi","To": "Azure","Temperature": {t},"Humedity" {h}}}'.format(t = temperature, h = humedity)
+		message_json = '{{"From": "Esp32-Pi","To": "Azure","Temperature": {t},"Humedity" {h},"Brightness": {l},"Ground_H" {g}}}'.format(t = temperature, h = humedity, l = light, g = ground)
+		#message_json = '{{"From": "Esp32-Pi","To": "Azure","Temperature": {t},"Humedity" {h}}}'.format(t = temperature, h = humedity)
 		message = Message(message_json)
 		# Send the message.
 		print("Sending message: {}".format(message))
@@ -25,10 +25,10 @@ def azure_upload(temperature,humedity,light,ground,azure_client) :
 		print("Some stop")
 
 
-def query(temperatura,humedad,cursor,conexion) :
+def query(temperatura,humedad,luminosidad,humedad_tierra,cursor,conexion) :
 	now = datetime.datetime.now()
-	#cursor.execute(f'insert into Sensor (Registro,Humedad,Celcius,Luminosidad,Humedad_tierra) values (?,?,?,?,?);',(now,humedad,temperatura,luminosidad,humedad_tierra))
-	cursor.execute(f'insert into Sensor (Registro,Humedad,Celcius,Luminosidad,Humedad_tierra) values (?,?,?,0,0);',(now,humedad,temperatura))
+	cursor.execute(f'insert into Sensor (Registro,Humedad,Celcius,Luminosidad,Humedad_tierra) values (?,?,?,?,?);',(now,humedad,temperatura,luminosidad,humedad_tierra))
+	#cursor.execute(f'insert into Sensor (Registro,Humedad,Celcius,Luminosidad,Humedad_tierra) values (?,?,?,0,0);',(now,humedad,temperatura))
 	conexion.commit()
 
 def on_connect(client,userdata,flags,rc) :
@@ -37,16 +37,16 @@ def on_connect(client,userdata,flags,rc) :
 
 def on_message(client,userdata,msg) :
 	if msg.topic == 'temp_humidity' :
-		#temperature,humedity,light,ground = str((msg.payload.decode())).split(',')
-		temperature,humedity = str((msg.payload.decode())).split(',')
+		temperature,humedity,light,ground = str((msg.payload.decode())).split(',')
+		#temperature,humedity = str((msg.payload.decode())).split(',')
 		print(f'Temperatura es: {temperature} °C')
 		print(f'Humedad es: {humedity} %')
-		#print(f'Luminosidad: {light}')
-		#print(f'Humedad en tierra: {ground} %')
-		#query(float(temperature),float(humedity),float(light),float(ground),cursor,conexion)
-		query(float(temperature),float(humedity),cursor,conexion)
-		#azure_upload(temperature,humedity,light,ground,azure_client)
-		azure_upload(temperature,humedity,0,0,azure_client)
+		print(f'Luminosidad: {light}')
+		print(f'Humedad en tierra: {ground} %')
+		query(float(temperature),float(humedity),float(light),float(ground),cursor,conexion)
+		#query(float(temperature),float(humedity),cursor,conexion)
+		azure_upload(temperature,humedity,light,ground,azure_client)
+		#azure_upload(temperature,humedity,0,0,azure_client)
 	#print(msg.topic + ' ' + str(msg.payload.decode()))
 
 
